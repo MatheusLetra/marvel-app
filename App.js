@@ -17,7 +17,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button}
-        onPress={()=> setData([])}>
+        onPress={()=> {
+          console.log(JSON.parse(data))
+        }}>
           <Text >GET</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
