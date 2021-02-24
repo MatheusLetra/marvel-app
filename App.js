@@ -12,7 +12,6 @@ export default function App() {
     let controller = new characterController();
     let newData = controller.getAllCharacters()
     setData(newData)
-    console.log(data)
   }, [])
   
   return (
@@ -36,6 +35,7 @@ const styles = StyleSheet.create({
   button:{
     width: 250,
     height: 250,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'red'
   }
 });

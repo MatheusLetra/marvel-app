@@ -22,9 +22,12 @@ class characterController {
 
     async getAllCharacters(){
         console.log('CHEGUEI CONTROLLER')
-        const url = getResourceURL(this.baseResource, this.baseURL, '1', this.apiKey, this.privateKey)
-        let data = await search(url)
+        const url =  getResourceURL(this.baseResource, this.baseURL, '1', this.apiKey, this.privateKey)
+        let data =  await search(url)
+        if (data){
+        console.warn(data)
         return data
+        }
     }
 }
 export { characterController }

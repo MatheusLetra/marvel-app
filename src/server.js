@@ -7,7 +7,7 @@ const search = (url) => {
       })
       .then(response =>response.json())
         .then(data => {
-          return data.results
+          return data
         })       
 
 }
