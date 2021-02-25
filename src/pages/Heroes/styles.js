@@ -15,6 +15,10 @@ const styles = StyleSheet.create({
       fontSize: 30,
       fontWeight: 'bold',
     },
+    list :{
+      marginTop: '25%', 
+      height: '20%'
+    }
   });
 
 export {styles};

@@ -5,7 +5,6 @@ import { Server } from '../server'
 
 class characterController {
     constructor() {
-
         this.baseResource = '/characters'
         this.apiKey = getAPIKey(generateHash(KEY))
         this.baseURL = getBaseURL(generateHash(KEY))
