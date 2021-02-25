@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import DrawerContent from '../../components/DrawerContent';
 
+import Heroes from '../Heroes'
 
 const Drawer = createDrawerNavigator();
 
 const Main = (props) => {   
     
     return (
-        <Drawer.Navigator initialRouteName={"Heroes"} drawerContent={props => <DrawerContent {...props} />}>
+        <Drawer.Navigator initialRouteName={"Heroes"} >
             <Drawer.Screen name="Heroes" component={Heroes} />
         </Drawer.Navigator>
     );
