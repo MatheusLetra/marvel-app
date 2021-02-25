@@ -10,7 +10,7 @@ class characterController {
         this.apiKey = getAPIKey(generateHash(KEY))
         this.baseURL = getBaseURL(generateHash(KEY))
         this.privateKey = getPrivateKey(generateHash(KEY))
-
+        this.response = null
         this.resources = {
             comics: '/comics',
             events: '/events',
@@ -24,11 +24,12 @@ class characterController {
         const url = getResourceURL(this.baseResource, this.baseURL, '1', this.apiKey, this.privateKey)
         const server = new Server();
         await server.search(url) 
-        const response = server.getResponse()
-        if (response)
-            return JSON.stringify(response.data.data)
+        const response = server.response
+        if (response){
+            this.response = JSON.stringify(response.data.data)
+        }
         else
-            return null
+            this.response = null
     }
 }
 export { characterController }

@@ -19,10 +19,6 @@ class Server {
       console.log(error)
     }
   }
-
-  getResponse(){
-    return this.response
-  }
 }
 
 export { Server };
