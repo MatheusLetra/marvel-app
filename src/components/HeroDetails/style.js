@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
     listItem: {
       backgroundColor: '#FFFF',
       marginTop: 20,
-      marginHorizontal: 50,
+      marginHorizontal: 30,
       padding: 15,
       height: 320,
       borderRadius:8

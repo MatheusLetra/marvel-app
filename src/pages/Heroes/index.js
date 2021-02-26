@@ -29,6 +29,7 @@ export default function Heroes() {
         setError(err);
       }
     }
+    console.log('passei use effect ')
     getData()
   }, [])
 
@@ -67,17 +68,23 @@ export default function Heroes() {
   }
 
   const handleSearch = text => {
-    const formattedQuery = text.toLowerCase();
-    const filteredData = filter(fullData.results, item => {
-      return contains(item, formattedQuery);
-    });
-    setData(filteredData);
+    if (text) {
+      const formattedQuery = text.toLowerCase();
+      const filteredData = filter(fullData.results, item => {
+        if( contains(item, formattedQuery))
+          return item
+      });
+      console.log(filteredData)
+      setData(filteredData);
+    } else {
+      setData(fullData)
+    }
     setQuery(text);
   };
 
   const contains = ({ name }, query) => {
-    if (name.includes(query)) {
-      console.log(name)
+    if (name.toLowerCase().includes(query)) {
+      console.log(query + ' - ' + name)
       return true;
     }
 
@@ -98,7 +105,7 @@ export default function Heroes() {
           style={styles.list}
           data={data.results}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id.toString()}
         />
       </ImageBackground>
     </View>
