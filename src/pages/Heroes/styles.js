@@ -1,14 +1,14 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
+import { Dimensions } from "react-native";
+const window = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
   image: {
-    flex: 1,
+    flexGrow: 1,
     resizeMode: 'cover',
-    justifyContent: 'center',
+    position: 'absolute',
+    width: window.width,
+    height: window.height
   },
   text: {
     color: 'grey',
@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   list: {
-    marginTop: '25%',
     height: '20%'
   },
   error: {
@@ -30,9 +29,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   containerSearchHeader:{
+    marginTop: '25%',
+    marginBottom: 5,
     backgroundColor: '#fff',
     padding: 10,
-    marginVertical: 10,
     marginHorizontal: 30,
     borderRadius: 8,
     flexDirection: 'row',
@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
   buttonSearch:{
     width: 35,
     height: 35,
-    backgroundColor: 'red'
+    alignItems: 'center',
+    justifyContent: 'center'
   }
-
 });
 
 export { styles };

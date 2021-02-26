@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground, FlatList, View, ActivityIndicator, TextInput, Text } from 'react-native';
+import { ImageBackground, FlatList, View, ActivityIndicator, 
+         TextInput, Text, Keyboard } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import filter from 'lodash.filter';
 import { styles } from './styles';
 
@@ -10,7 +12,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const image = require('../../images/heroesBackground.jpg');
 
 export default function Heroes() {
-  const [query, setQuery] = useState('');
+  const [text, setText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([])
   const [fullData, setFullData] = useState([]);
@@ -55,18 +57,25 @@ export default function Heroes() {
     return (
       <View style={styles.containerSearchHeader}>
         <TextInput
-          value={query}
-          onChangeText={queryText => { 
-            setQuery(queryText)
+          value={text}
+          onChangeText={(queryText) => {
+            setText(queryText)
             if (!queryText)
               setData(fullData)
+            handleSearch(queryText)
           }}
           placeholder="Search"
           style={{ backgroundColor: '#fff', paddingHorizontal: 20, width: 250 }}
         />
         <TouchableOpacity style={styles.buttonSearch}
-          onPress={() => handleSearch(query)}>
-
+          onPress={() => {
+            handleSearch(text)
+            Keyboard.dismiss();
+          }}>
+          <Icon name="magnify"
+            color='black'
+            size={35}
+          />
         </TouchableOpacity>
       </View>
     );
@@ -83,30 +92,24 @@ export default function Heroes() {
 
   const contains = ({ name }, query) => {
     if (name.toLowerCase().includes(query)) {
-      console.log(query + ' - ' + name)
       return true;
     }
-
     return false;
   };
-
-
 
   const renderItem = ({ item }) => (
     <HeroDetails {...item} />
   );
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={image} style={styles.image}>
-        <FlatList
-          ListHeaderComponent={renderHeader}
-          style={styles.list}
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-        />
-      </ImageBackground>
-    </View>
+    <ImageBackground source={image} style={styles.image}>
+      {renderHeader()}
+      <FlatList
+        style={styles.list}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={item => item.id.toString()}
+      />
+    </ImageBackground>
   );
 }
