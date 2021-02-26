@@ -19,8 +19,8 @@ class characterController {
     }
 
 
-    async getAllCharacters() {
-        const url = getResourceURL(this.baseResource, this.baseURL, '1', this.apiKey, this.privateKey)
+    async getAllCharacters(offSet = 0, limit = 20) {
+        const url = getResourceURL(this.baseResource, this.baseURL, '1', this.apiKey, this.privateKey, offSet, limit)
         const server = new Server();
         await server.search(url) 
         const response = server.response

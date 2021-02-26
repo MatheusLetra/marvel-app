@@ -23,10 +23,16 @@ const getAPIKey = (key) => {
         return false
 }
 
-const getResourceURL = (resource, baseURL, timesstamp, apiKey, privateKey ) => {
+const getResourceURL = (resource, baseURL, timesstamp, apiKey, privateKey,offset = 0, limit = 0 ) => {
     const stringHASH = timesstamp + privateKey + apiKey 
-    const resourceURL = baseURL + resource + '?ts=' + timesstamp 
-        + '&apikey=' + apiKey + '&hash=' + generateHash(stringHASH)
+    let resourceURL = baseURL + resource + '?ts=' + timesstamp 
+        + '&apikey=' + apiKey + '&hash=' + generateHash(stringHASH) 
+        
+    if (offset > 0)
+      resourceURL = resourceURL  + '&offset=' + offset
+
+    if (limit > 0)
+      resourceURL = resourceURL  + '&limit=' + limit
     return resourceURL;
 }
 

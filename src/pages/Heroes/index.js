@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground, FlatList, View, ActivityIndicator, 
-         TextInput, Text, Keyboard } from 'react-native';
+import {
+  ImageBackground, FlatList, View, ActivityIndicator,
+  TextInput, Text, Keyboard
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import filter from 'lodash.filter';
 import { styles } from './styles';
@@ -18,30 +20,38 @@ export default function Heroes() {
   const [fullData, setFullData] = useState([]);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    async function getData() {
+  const [offSet, setOffSet] = useState(0)
+  const [limit, setLimit] = useState(20)
+
+  const getData = async () => {
+    if (text === '') {
       try {
         setIsLoading(true);
         const controller = new characterController();
-        await controller.getAllCharacters()
-        setData(JSON.parse(controller.response))
-        setFullData(JSON.parse(controller.response))
+        await controller.getAllCharacters(offSet, limit)
+        setData([...fullData, ...JSON.parse(controller.response)])
+        setFullData([...fullData, ...JSON.parse(controller.response)])
         setIsLoading(false);
+        setOffSet(offSet + 20)
       } catch (err) {
         setIsLoading(false);
         setError(err);
       }
     }
+  }
+
+  useEffect(() => {
     getData()
   }, [])
 
-  if (isLoading) {
+  const renderFooter = () => {
+    if (!isLoading || text !== '') return null;
     return (
       <View style={styles.loading}>
         <ActivityIndicator size="large" color="#5500dc" />
       </View>
     );
-  }
+  };
 
   if (error) {
     return (
@@ -108,7 +118,10 @@ export default function Heroes() {
         style={styles.list}
         data={data}
         renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item.name.trim() + offSet.toString()}
+        onEndReached={getData}
+        onEndReachedThreshold={2.0}
+        ListFooterComponent={renderFooter}
       />
     </ImageBackground>
   );
