@@ -25,7 +25,7 @@ class characterController {
         await server.search(url) 
         const response = server.response
         if (response){
-            this.response = JSON.stringify(response.data.data)
+            this.response = JSON.stringify(response.data.data.results)
         }
         else
             this.response = null

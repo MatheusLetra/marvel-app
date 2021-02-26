@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground, FlatList, View, ActivityIndicator, TextInput } from 'react-native';
+import { ImageBackground, FlatList, View, ActivityIndicator, TextInput, Text } from 'react-native';
 import filter from 'lodash.filter';
 import { styles } from './styles';
 
 import { characterController } from '../../controllers/characterController';
 import { HeroDetails } from '../../components/HeroDetails'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const image = require('../../images/heroesBackground.jpg');
 
@@ -29,7 +30,6 @@ export default function Heroes() {
         setError(err);
       }
     }
-    console.log('passei use effect ')
     getData()
   }, [])
 
@@ -55,31 +55,30 @@ export default function Heroes() {
     return (
       <View style={styles.containerSearchHeader}>
         <TextInput
-          autoCapitalize="none"
-          autoCorrect={false}
-          clearButtonMode="always"
           value={query}
-          onChangeText={queryText => handleSearch(queryText)}
+          onChangeText={queryText => { 
+            setQuery(queryText)
+            if (!queryText)
+              setData(fullData)
+          }}
           placeholder="Search"
-          style={{ backgroundColor: '#fff', paddingHorizontal: 20 }}
+          style={{ backgroundColor: '#fff', paddingHorizontal: 20, width: 250 }}
         />
+        <TouchableOpacity style={styles.buttonSearch}
+          onPress={() => handleSearch(query)}>
+
+        </TouchableOpacity>
       </View>
     );
   }
 
   const handleSearch = text => {
-    if (text) {
-      const formattedQuery = text.toLowerCase();
-      const filteredData = filter(fullData.results, item => {
-        if( contains(item, formattedQuery))
-          return item
-      });
-      console.log(filteredData)
-      setData(filteredData);
-    } else {
-      setData(fullData)
-    }
-    setQuery(text);
+    const formattedQuery = text.toLowerCase();
+    const filteredData = filter(fullData, item => {
+      if (contains(item, formattedQuery))
+        return item
+    });
+    setData(filteredData);
   };
 
   const contains = ({ name }, query) => {
@@ -103,7 +102,7 @@ export default function Heroes() {
         <FlatList
           ListHeaderComponent={renderHeader}
           style={styles.list}
-          data={data.results}
+          data={data}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}
         />
